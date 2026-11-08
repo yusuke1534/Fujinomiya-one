@@ -20,7 +20,34 @@ function toggleFav(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==
 function renderSaved(){const arr=sample.filter(x=>favorites.includes(x.id));document.getElementById('saved').innerHTML=arr.length?arr.map(card).join(''):'<p class="empty">保存した施設はまだありません。</p>'}
 function showPlace(id){const x=sample.find(a=>a.id===id);document.getElementById('detailTitle').textContent=x.name;document.getElementById('detailBody').innerHTML=`<div class="result"><span class="pill">${x.cat}</span><p>${x.desc}</p><p class="notice">営業時間・電話番号・住所などの詳細情報は未登録です。</p><div class="actions"><button onclick="toggleFav('${id}')">お気に入りを切替</button><button onclick="window.open('${x.url}','_blank','noopener')">公式情報へ</button></div></div>`;navigate('detail')}
 function showInfo(title,body){document.getElementById('detailTitle').textContent=title;document.getElementById('detailBody').innerHTML=`<div class="result"><p>${body}</p></div>`;navigate('detail')}
-function openToday(key){const info={weather:['今日の天気','天気予報APIは未接続です。気温や天候を推測で表示しない仕様です。'],trash:['ごみの収集','地区を登録し、市の公式収集カレンダーと連携する予定です。全市一律の収集日とは表示しません。'],hospital:['開いている病院','診療時間・休診情報を確認できる機能を準備中です。受診前に医療機関へ電話でご確認ください。']};showInfo(...info[key])}
+function openToday(key){if(key==='weather'){showWeatherDetail();return;}const info={weather:['今日の天気','天気予報APIは未接続です。気温や天候を推測で表示しない仕様です。'],trash:['ごみの収集','地区を登録し、市の公式収集カレンダーと連携する予定です。全市一律の収集日とは表示しません。'],hospital:['開いている病院','診療時間・休診情報を確認できる機能を準備中です。受診前に医療機関へ電話でご確認ください。']};showInfo(...info[key])}
+
+// 富士宮市街地付近の予報（Open-Meteo、Asia/Tokyo）
+let weatherData=null;
+const weatherLabels={0:['快晴','☀️'],1:['晴れ','🌤️'],2:['一部曇り','⛅'],3:['曇り','☁️'],45:['霧','🌫️'],48:['霧','🌫️'],51:['霧雨','🌦️'],53:['霧雨','🌦️'],55:['霧雨','🌦️'],56:['着氷性の霧雨','🌧️'],57:['着氷性の霧雨','🌧️'],61:['小雨','🌧️'],63:['雨','🌧️'],65:['強い雨','🌧️'],66:['着氷性の雨','🌧️'],67:['着氷性の雨','🌧️'],71:['小雪','🌨️'],73:['雪','🌨️'],75:['大雪','❄️'],77:['雪','🌨️'],80:['にわか雨','🌦️'],81:['にわか雨','🌧️'],82:['激しいにわか雨','⛈️'],85:['にわか雪','🌨️'],86:['強いにわか雪','❄️'],95:['雷雨','⛈️'],96:['雷雨・ひょう','⛈️'],99:['激しい雷雨・ひょう','⛈️']};
+function weatherName(code){return weatherLabels[code]||['天気情報','🌤️']}
+function weatherCardText(t){const item=document.querySelector('#today button:first-child small');if(item)item.textContent=t}
+async function loadFujinomiyaWeather(){
+ weatherCardText('天気を取得中…');
+ const url='https://api.open-meteo.com/v1/forecast?latitude=35.222&longitude=138.622&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset&timezone=Asia%2FTokyo&forecast_days=3';
+ try{
+  const res=await fetch(url,{cache:'no-store'});if(!res.ok)throw Error('HTTP '+res.status);
+  const data=await res.json();if(!data.daily?.time?.length||!data.current)throw Error('invalid response');
+  const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  let i=data.daily.time.indexOf(today);if(i<0)i=0;
+  weatherData={data,i,fetchedAt:new Date()};
+  const label=weatherName(data.current.weather_code)[0];
+  weatherCardText(`${label} ${Math.round(data.current.temperature_2m)}℃｜最高${Math.round(data.daily.temperature_2m_max[i])}℃ / 最低${Math.round(data.daily.temperature_2m_min[i])}℃`);
+ }catch(err){weatherData=null;weatherCardText('取得できませんでした・タップして再試行');}
+}
+function showWeatherDetail(){
+ if(!weatherData){showInfo('富士宮市の天気','天気情報を取得できませんでした。通信状態を確認して再度お試しください。');loadFujinomiyaWeather();return;}
+ const {data:d,i,fetchedAt}=weatherData,c=d.current;
+ const lines=[`現在の天気：${weatherName(c.weather_code).join(' ')}`,`現在の気温：${Math.round(c.temperature_2m)}℃`,`最高 / 最低：${Math.round(d.daily.temperature_2m_max[i])}℃ / ${Math.round(d.daily.temperature_2m_min[i])}℃`,`降水確率（今日の最大）：${d.daily.precipitation_probability_max?.[i]??'不明'}%`,`湿度：${c.relative_humidity_2m}%`,`風速：${c.wind_speed_10m} km/h`,`日の出：${d.daily.sunrise[i]?.slice(11)??'不明'}`,`日の入り：${d.daily.sunset[i]?.slice(11)??'不明'}`,`取得時刻：${fetchedAt.toLocaleString('ja-JP',{timeZone:'Asia/Tokyo'})}`,`予報地点：富士宮市街地付近`,`提供：Open-Meteo（予報値・実測値ではありません）`];
+ showInfo('富士宮市・今日の天気',lines.join(' ／ '));
+}
+loadFujinomiyaWeather();
+
 document.getElementById('query').addEventListener('input',renderResults);document.getElementById('homeSearch').addEventListener('focus',()=>{navigate('search');document.getElementById('query').focus()});
 if ('serviceWorker' in navigator) { navigator.serviceWorker.getRegistrations().then(rs => Promise.all(rs.map(r => r.unregister()))).catch(()=>{}); }
 if ('caches' in window) { caches.keys().then(keys => Promise.all(keys.filter(k => k.includes('fujinomiya')).map(k => caches.delete(k)))).catch(()=>{}); }

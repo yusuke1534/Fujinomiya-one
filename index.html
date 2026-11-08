@@ -4,7 +4,7 @@
 .hero{height:55.7vw;max-height:345px;min-height:210px;background-image:url('./hero.webp');background-size:100% 100%;background-position:center;background-repeat:no-repeat}
 .hero:before{display:none}.content{margin-top:0;padding:0 10px}.search{margin:8px 10px 0;border-radius:30px}.panel{margin-top:12px}.today img{height:clamp(65px,12vw,115px)}.cat img{height:clamp(72px,13vw,125px)}.cat span{font-size:clamp(10px,2.5vw,14px)}.categories{gap:12px 8px}.nav{border-radius:24px 24px 0 0}.app{background:linear-gradient(#eaf8ff,#fff 62%)}
 @media(max-width:390px){.hero{height:55.7vw;min-height:0}.today img{height:68px}.cat img{height:74px}}
-</style></head><body><div class="app"><header class="hero" id="hero"><div class="top" style="display:none"><div class="brand"><span class="mark">🏔️</span><div><strong>富士宮 ONE</strong><small>Fujinomiya ONE</small></div></div><div class="topright"><button class="circle" aria-label="お知らせ" onclick="showInfo('お知らせ','お知らせ機能は今後追加します。')">♧</button><button class="circle" aria-label="アカウント" onclick="showInfo('アカウント','会員登録機能は今後追加します。')">♙</button></div></div><div class="headline" style="display:none"><h1>観光も、暮らしも、<br>これひとつ。</h1><p>富士宮を、もっと便利に、もっと楽しく。</p></div></header><main><section id="home" class="content page"><label class="search"><span>⌕</span><input id="homeSearch" placeholder="お店・観光・施設を検索" aria-label="施設検索"></label><div class="panel"><h2 class="section-title">今日の富士宮市 <span class="muted">暮らしの情報</span></h2><div class="today" id="today"></div></div><div class="categories" id="categories"></div><p class="notice">※現在はデザイン・操作確認用の初期版です。天気、ごみ収集、診療状況などのリアルタイム情報は未接続です。</p></section><section id="search" class="view page"><h2 id="searchTitle">施設を探す</h2><label class="search"><span>⌕</span><input id="query" placeholder="施設名・カテゴリーで検索"></label><div id="results"></div></section><section id="map" class="view page"><h2>地図から探す</h2><div class="mapbox"><div>📍<h3>富士宮市の施設マップ</h3><p>地図サービス・施設位置データは今後接続します。</p></div></div></section><section id="favorites" class="view page"><h2>お気に入り</h2><div id="saved"></div></section><section id="talk" class="view page"><h2>富士宮トーク</h2><div class="result"><h3>🤖 旅とも案内</h3><p>おすすめの観光地や飲食店を探すための案内機能を準備中です。</p></div><div class="result"><h3>💬 友だちトーク</h3><p>ログイン・友だち承認・メッセージ機能は今後追加します。</p></div><div class="result"><h3>🏪 お店トーク</h3><p>参加店舗との問い合わせ機能は今後追加します。</p></div></section><section id="detail" class="view page"><button class="back" onclick="navigate('home')">‹ ホームへ戻る</button><h2 id="detailTitle"></h2><div id="detailBody"></div></section></main><nav class="nav" aria-label="メインメニュー"><button data-page="home" class="active" onclick="navigate('home')"><i>⌂</i>ホーム</button><button data-page="search" onclick="navigate('search')"><i>⌕</i>検索</button><button data-page="map" onclick="navigate('map')"><i>♧</i>地図</button><button data-page="favorites" onclick="navigate('favorites')"><i>♡</i>お気に入り</button><button data-page="talk" onclick="navigate('talk')"><i>☏</i>トーク</button></nav></div><script>
+ .garbage-select{width:100%;padding:12px;border:1px solid #c9e4f4;border-radius:12px;background:white;color:#15334e;font-size:16px}.garbage-row{padding:12px 0;border-bottom:1px solid #e3eef5}.garbage-row strong{display:block}.garbage-row small{color:#627b8b}.garbage-link{display:inline-block;margin-top:14px;color:#087fc8;font-weight:bold}.garbage-warning{background:#fff8e8;border-radius:12px;padding:12px;line-height:1.7;font-size:13px}</style></head><body><div class="app"><header class="hero" id="hero"><div class="top" style="display:none"><div class="brand"><span class="mark">🏔️</span><div><strong>富士宮 ONE</strong><small>Fujinomiya ONE</small></div></div><div class="topright"><button class="circle" aria-label="お知らせ" onclick="showInfo('お知らせ','お知らせ機能は今後追加します。')">♧</button><button class="circle" aria-label="アカウント" onclick="showInfo('アカウント','会員登録機能は今後追加します。')">♙</button></div></div><div class="headline" style="display:none"><h1>観光も、暮らしも、<br>これひとつ。</h1><p>富士宮を、もっと便利に、もっと楽しく。</p></div></header><main><section id="home" class="content page"><label class="search"><span>⌕</span><input id="homeSearch" placeholder="お店・観光・施設を検索" aria-label="施設検索"></label><div class="panel"><h2 class="section-title">今日の富士宮市 <span class="muted">暮らしの情報</span></h2><div class="today" id="today"></div></div><div class="categories" id="categories"></div><p class="notice">※現在はデザイン・操作確認用の初期版です。天気は予報APIから取得します。ごみ収集は地区別カレンダーデータの登録が必要です。診療状況は未接続です。</p></section><section id="search" class="view page"><h2 id="searchTitle">施設を探す</h2><label class="search"><span>⌕</span><input id="query" placeholder="施設名・カテゴリーで検索"></label><div id="results"></div></section><section id="map" class="view page"><h2>地図から探す</h2><div class="mapbox"><div>📍<h3>富士宮市の施設マップ</h3><p>地図サービス・施設位置データは今後接続します。</p></div></div></section><section id="favorites" class="view page"><h2>お気に入り</h2><div id="saved"></div></section><section id="talk" class="view page"><h2>富士宮トーク</h2><div class="result"><h3>🤖 旅とも案内</h3><p>おすすめの観光地や飲食店を探すための案内機能を準備中です。</p></div><div class="result"><h3>💬 友だちトーク</h3><p>ログイン・友だち承認・メッセージ機能は今後追加します。</p></div><div class="result"><h3>🏪 お店トーク</h3><p>参加店舗との問い合わせ機能は今後追加します。</p></div></section><section id="detail" class="view page"><button class="back" onclick="navigate('home')">‹ ホームへ戻る</button><h2 id="detailTitle"></h2><div id="detailBody"></div></section></main><nav class="nav" aria-label="メインメニュー"><button data-page="home" class="active" onclick="navigate('home')"><i>⌂</i>ホーム</button><button data-page="search" onclick="navigate('search')"><i>⌕</i>検索</button><button data-page="map" onclick="navigate('map')"><i>♧</i>地図</button><button data-page="favorites" onclick="navigate('favorites')"><i>♡</i>お気に入り</button><button data-page="talk" onclick="navigate('talk')"><i>☏</i>トーク</button></nav></div><script>
 const photo=(id)=>'./'+id+'.webp';
 const cats=[['食べる','food'],['遊ぶ・観光','tourism'],['買う','shop'],['泊まる','stay'],['移動する','transport'],['医療・健康','health'],['子育て','child'],['行政・暮らし','city'],['仕事・ビジネス','city'],['防災・緊急','weather'],['イベント','tourism'],['お得・地域交流','shop']];
 const today=[['今日の天気','天気予報を見る','weather','weather'],['ごみの収集','地区別の収集日を確認','trash','trash'],['開いている病院','診療情報を確認','hospital','hospital']];
@@ -20,7 +20,46 @@ function toggleFav(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==
 function renderSaved(){const arr=sample.filter(x=>favorites.includes(x.id));document.getElementById('saved').innerHTML=arr.length?arr.map(card).join(''):'<p class="empty">保存した施設はまだありません。</p>'}
 function showPlace(id){const x=sample.find(a=>a.id===id);document.getElementById('detailTitle').textContent=x.name;document.getElementById('detailBody').innerHTML=`<div class="result"><span class="pill">${x.cat}</span><p>${x.desc}</p><p class="notice">営業時間・電話番号・住所などの詳細情報は未登録です。</p><div class="actions"><button onclick="toggleFav('${id}')">お気に入りを切替</button><button onclick="window.open('${x.url}','_blank','noopener')">公式情報へ</button></div></div>`;navigate('detail')}
 function showInfo(title,body){document.getElementById('detailTitle').textContent=title;document.getElementById('detailBody').innerHTML=`<div class="result"><p>${body}</p></div>`;navigate('detail')}
-function openToday(key){if(key==='weather'){showWeatherDetail();return;}const info={weather:['今日の天気','天気予報APIは未接続です。気温や天候を推測で表示しない仕様です。'],trash:['ごみの収集','地区を登録し、市の公式収集カレンダーと連携する予定です。全市一律の収集日とは表示しません。'],hospital:['開いている病院','診療時間・休診情報を確認できる機能を準備中です。受診前に医療機関へ電話でご確認ください。']};showInfo(...info[key])}
+function openToday(key){if(key==='weather'){showWeatherDetail();return;}if(key==='trash'){showGarbageDetail();return;}const info={weather:['今日の天気','天気予報APIは未接続です。気温や天候を推測で表示しない仕様です。'],trash:['ごみの収集','地区別カレンダーを確認します。'],hospital:['開いている病院','診療時間・休診情報を確認できる機能を準備中です。受診前に医療機関へ電話でご確認ください。']};showInfo(...info[key])}
+
+
+// 地区別ごみ収集カレンダー。公式情報を確認したJSONだけを表示する。
+const GARBAGE_DATA_URL='./garbage-calendar.json';
+const GARBAGE_OFFICIAL_URL='https://www.city.fujinomiya.lg.jp/';
+let garbageCalendar=null;
+let garbageStatus='読み込み前';
+const garbageDistrictKey='fujinomiya-garbage-district';
+function jstDay(date=new Date()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(date)}
+function escapeGarbage(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function garbageCardText(t){const el=document.querySelector('#today button:nth-child(2) small');if(el)el.textContent=t}
+async function loadGarbageCalendar(){
+ try{
+  const r=await fetch(GARBAGE_DATA_URL+'?v=20261108',{cache:'no-store'});
+  if(!r.ok)throw Error('カレンダーデータ未配置');
+  const d=await r.json();
+  if(!Array.isArray(d.districts)||!Array.isArray(d.collections))throw Error('データ形式が違います');
+  garbageCalendar=d;garbageStatus='読み込み完了';
+  const district=localStorage.getItem(garbageDistrictKey);
+  if(!district){garbageCardText('地区を登録して収集日を確認');return}
+  const label=d.districts.find(x=>x.id===district)?.name;
+  if(!label){garbageCardText('地区を選び直してください');return}
+  const items=d.collections.filter(x=>x.district_id===district&&x.date===jstDay());
+  garbageCardText(items.length?`${label}：${items.map(x=>x.type).join('・')}`:`${label}：今日の収集登録なし（公式情報を確認）`);
+ }catch(e){garbageCalendar=null;garbageStatus=e.message;garbageCardText('地区別データ未登録・確認する')}
+}
+function showGarbageDetail(){
+ const d=garbageCalendar;
+ const selected=localStorage.getItem(garbageDistrictKey)||'';
+ const options=d?.districts?.map(x=>`<option value="${escapeGarbage(x.id)}" ${x.id===selected?'selected':''}>${escapeGarbage(x.name)}</option>`).join('')||'';
+ const entries=(d?.collections||[]).filter(x=>x.district_id===selected&&x.date>=jstDay()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,14);
+ const rows=entries.map(x=>`<div class="garbage-row"><strong>${escapeGarbage(x.date)}　${escapeGarbage(x.type)}</strong><small>${escapeGarbage(x.note||'')}</small></div>`).join('');
+ const valid=d?.verified===true && d?.source_url && selected;
+ document.getElementById('detailTitle').textContent='ごみの収集';
+ document.getElementById('detailBody').innerHTML=`<div class="result"><h3>富士宮市・地区別収集カレンダー</h3><p>お住まいの地区を選択してください。選択はこの端末に保存されます。</p><select class="garbage-select" id="garbageDistrict" onchange="setGarbageDistrict(this.value)"><option value="">地区を選択</option>${options}</select><p class="notice">データ状態：${escapeGarbage(garbageStatus)}</p>${valid?`<p class="notice">確認元：${escapeGarbage(d.source_name||'公式カレンダー')} ／ 確認日：${escapeGarbage(d.verified_at||'未記載')}</p>`:'<p class="garbage-warning">⚠️ 公式カレンダーの地区別データがまだ登録・確認されていません。収集日を推測で表示しません。</p>'}${valid?(rows||'<p class="notice">今後の収集予定データがありません。公式カレンダーをご確認ください。</p>'):''}<a class="garbage-link" href="${escapeGarbage(d?.source_url||GARBAGE_OFFICIAL_URL)}" target="_blank" rel="noopener noreferrer">富士宮市の公式情報を確認 ↗</a></div>`;
+ navigate('detail');
+}
+function setGarbageDistrict(id){localStorage.setItem(garbageDistrictKey,id);loadGarbageCalendar().then(showGarbageDetail)}
+loadGarbageCalendar();
 
 // 富士宮市街地付近の予報（Open-Meteo、Asia/Tokyo）
 let weatherData=null;
